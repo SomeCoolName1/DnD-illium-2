@@ -1,0 +1,229 @@
+@use "../../theme";
+
+.map-panel {
+  display: flex;
+  height: 100%;
+  width: 100%;
+  color: white;
+  flex-direction: column;
+  align-items: center;
+  padding: 1rem;
+  box-sizing: border-box;
+  position: relative;
+}
+
+.map-panel__tabs {
+  width: 100%;
+}
+
+.map-panel__list {
+  z-index: 100;
+  width: 100%;
+  padding: 0.5rem;
+  height: 10%;
+  display: flex;
+  flex-direction: row;
+  gap: 0.5rem;
+
+  &__card {
+    position: relative;
+    background-image: url("../../assets/background/map-border.png");
+    background-size: 100% 100%; /* stretches image to fit exactly */
+    background-position: center; /* centers the image */
+    background-repeat: no-repeat;
+    width: 350px;
+    height: 175px;
+    border-radius: 6px;
+    padding: 0.3rem;
+    cursor: pointer;
+    transition: transform 0.5s ease;
+    box-sizing: border-box;
+
+    &:hover {
+      transform: scale(1.02);
+    }
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      position: relative;
+      z-index: -10;
+      box-sizing: border-box;
+    }
+    p {
+      position: absolute;
+      top: 50%;
+      margin: 0 auto;
+      font-size: 0.8rem;
+      text-align: center;
+    }
+  }
+}
+
+.map-viewport {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  position: relative;
+  cursor: grab;
+  user-select: none;
+
+  clip-path: polygon(
+    3% 0%,
+    97% 2%,
+    100% 10%,
+    98% 92%,
+    94% 100%,
+    6% 98%,
+    0% 90%,
+    2% 8%
+  );
+
+  &:active {
+    cursor: grabbing;
+  }
+
+  &__content {
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    transform-origin: 0 0;
+    will-change: transform;
+  }
+
+  &__image {
+    display: block;
+    max-width: none; // IMPORTANT
+    pointer-events: none;
+    user-select: none;
+  }
+
+  &__grid-overlay {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+
+    background-image:
+      linear-gradient(to right, rgba(255, 255, 255, 0.12) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(255, 255, 255, 0.12) 1px, transparent 1px);
+    background-size: 50px 50px; // 👈 tile size (1 square)}
+  }
+}
+
+.token {
+  position: absolute;
+  width: 50px;
+  height: 50px;
+  box-sizing: border-box;
+
+  img {
+    width: 100%;
+    height: 100%;
+    background-color: white;
+
+    border-radius: 50%;
+    object-fit: cover;
+  }
+}
+
+.token::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 3px solid #2b2118;
+  box-shadow: inset 0 0 0 2px rgba(248, 241, 223, 0.6);
+  pointer-events: none;
+}
+
+.token__menu {
+  position: absolute;
+  top: -100%;
+  left: 110%;
+  background: linear-gradient(180deg, #2c2418 0%, #1b1710 100%);
+
+  border: 3px solid #c9a24c;
+  border-radius: 12px;
+
+  padding: 8px;
+  z-index: 100;
+
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.08),
+    0 8px 24px rgba(0, 0, 0, 0.6);
+
+  button {
+    margin: 4px 0px;
+    background: linear-gradient(
+      to bottom,
+      #fff2b3 0%,
+      #e8c96a 20%,
+      #c79a2e 55%,
+      #8c6420 100%
+    );
+    width: 100%;
+    border: 2px solid #d6c17a;
+    border-radius: 8px;
+    padding: 2px 4px;
+
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.4),
+      0 3px 6px rgba(0, 0, 0, 0.4);
+
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
+
+    transition: all 0.15s ease;
+    &:hover {
+      border-color: #ffe7a0;
+
+      box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.5),
+        0 0 12px rgba(255, 225, 120, 0.6),
+        0 3px 8px rgba(0, 0, 0, 0.5);
+
+      transform: translateY(-1px);
+    }
+    &:active {
+      transform: translateY(2px);
+
+      box-shadow:
+        inset 0 3px 6px rgba(0, 0, 0, 0.4),
+        0 1px 2px rgba(0, 0, 0, 0.3);
+    }
+  }
+}
+
+.grid-highlight {
+  position: absolute;
+
+  background: rgba(0, 150, 255, 0.25);
+  border: 2px solid rgba(0, 150, 255, 0.8);
+
+  pointer-events: none;
+
+  box-sizing: border-box;
+}
+
+.token__hp-menu {
+  width: 500px;
+  height: 500px;
+  position: absolute;
+  bottom: 0%;
+}
+
+.map-panel__footer {
+  display: grid;
+  width: 100%;
+  grid-template-columns: minmax(50%, 3fr) 1fr 1fr 1fr;
+  grid-template-rows: none;
+  gap: 0.5rem;
+
+  & > * {
+    background: #222;
+    border-radius: 20px;
+    padding: 0.5rem;
+    border: 2px solid #d4b15a;
+  }
+}

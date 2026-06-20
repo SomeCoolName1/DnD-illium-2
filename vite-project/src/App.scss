@@ -1,0 +1,39 @@
+.main-container {
+  display: grid;
+  grid-template-columns: minmax(15%, 500px) 1fr minmax(15%, 500px);
+  min-height: 100vh;
+  box-sizing: border-box;
+  background-image:
+    linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),
+    url("/src/assets/background/wood.png");
+  background-size: 100% 100%; /* stretches image to fit exactly */
+  background-position: center; /* centers the image */
+  background-repeat: no-repeat;
+}
+
+.center-panel-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.character-panel-container {
+  background-image: url("/src/assets/background/book.png");
+  background-size: 100% 100%; /* stretches image to fit exactly */
+  background-position: center; /* centers the image */
+  background-repeat: no-repeat;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.initiative-panel-container {
+  background-image: url("/src/assets/background/banner.png");
+  background-size: 100% 100%; /* stretches image to fit exactly */
+  background-position: center; /* centers the image */
+  background-repeat: no-repeat;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+}

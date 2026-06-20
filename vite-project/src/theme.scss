@@ -1,0 +1,51 @@
+$primary-colour: #c19b5f;
+$color-surface: #2a2a2a;
+$color-accent: #c9a227;
+$color-text: #f5f5f5;
+
+$colour-main: #4da3ff;
+$colour-enemy: #e24b4b;
+$colour-npc: #4cc38a;
+$colour-factions: #d4b15a;
+
+@font-face {
+  font-family: "Dungeon";
+  src: url("/vite-project/public/font/DUNGRG__.woff2") format("woff2");
+}
+
+* {
+  font-family: "Press Start 2P", cursive;
+  color: #f3e8c8;
+}
+
+h1 {
+  font-family: "Press Start 2P", cursive;
+  color: #2b2118;
+  position: relative;
+  display: inline-block;
+  text-transform: uppercase;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  &::after {
+    content: "";
+    display: block;
+    height: 4px; /* thicker */
+    margin-top: 0.5em;
+    background: linear-gradient(
+      to right,
+      transparent,
+      #1f1a17 10%,
+      #1f1a17 90%,
+      transparent
+    );
+    filter: drop-shadow(0 1px 0 rgba(0, 0, 0, 0.2));
+  }
+}
+
+@mixin side-panel-style {
+  padding-top: 6rem;
+  width: 66%;
+  height: 100vh;
+  box-sizing: border-box;
+  z-index: 100;
+}

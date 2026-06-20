@@ -1,0 +1,97 @@
+@use "../../theme";
+
+.initiative-panel {
+  @include theme.side-panel-style;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  max-height: 100vh;
+
+  &__list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    width: 100%;
+    overflow-y: auto;
+    overflow-x: hidden;
+    height: 70%;
+  }
+}
+
+.initiative-panel__card {
+  position: relative;
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 100px;
+  clip-path: polygon(0 0, 100% 0, 85% 100%, 0 100%);
+  overflow: hidden;
+
+  background: white;
+
+  border-bottom: 3px solid black;
+  border-top: 3px solid black;
+
+  mask-image: linear-gradient(
+    to right,
+    rgba(0, 0, 0, 1) 0%,
+    rgba(0, 0, 0, 1) 70%,
+    rgba(0, 0, 0, 0) 100%
+  );
+}
+
+.initiative-panel__card img {
+  position: absolute;
+  inset: 0;
+
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 20%;
+
+  z-index: 0;
+
+  mask-image: linear-gradient(to right, black 0%, black 65%, transparent 100%);
+}
+
+.initiative-panel__meta {
+  position: absolute;
+  left: 10px;
+  bottom: 8px;
+  z-index: 10;
+  padding: 10px 5px 0px 5px;
+  height: 100%;
+  box-sizing: border-box;
+  color: white;
+
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+.initiative-panel__init {
+  font-size: 24px;
+  font-weight: 700;
+  margin: 0;
+  color: white;
+
+  text-shadow:
+    2px 0 0 #000,
+    -2px 0 0 #000,
+    0 2px 0 #000,
+    0 -2px 0 #000;
+}
+
+.initiative-panel__name {
+  font-size: 36px;
+  font-weight: 700;
+  margin: 0;
+  color: white;
+
+  text-shadow:
+    2px 0 0 #000,
+    -2px 0 0 #000,
+    0 2px 0 #000,
+    0 -2px 0 #000;
+}
