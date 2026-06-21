@@ -8,6 +8,7 @@ import InfoPanel from "./components/panel/InfoPanel";
 function App() {
   const [tokens, setTokens] = useState([]);
   const [pendingToken, setPendingToken] = useState(null);
+  const [activeToken, setActiveToken] = useState(null);
 
   // Select a character to place on the map; waiting for user to click a grid cell
   const selectCharacterForPlacement = (character) => {
@@ -70,11 +71,13 @@ function App() {
   return (
     <div className="main-container">
       <div className="initiative-panel-container">
-        <InitiativePanel tokens={tokens} />
+        <InitiativePanel tokens={tokens} activeToken={activeToken} />
       </div>
       <div className="center-panel-container">
         <MapPanel
           tokens={tokens}
+          activeToken={activeToken}
+          setActiveToken={setActiveToken}
           setTokens={setTokens}
           pendingToken={pendingToken}
           onPlaceToken={placePendingToken}

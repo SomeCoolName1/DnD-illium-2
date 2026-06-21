@@ -1,16 +1,27 @@
-# React + Vite
+# DnD - Illium
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Creates a stream-able table for DnD
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- Add characters into assets following the same naming convention
+  - JSON (just needs initiative value, name is just for neatness) + Image
+-
 
-## React Compiler
+## Before you start the first run
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+Check if you have the following via Console Log
+node -v
+npm -v
 
-## Expanding the ESLint configuration
+## Running it
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+1. git clone / download
+2. cd vite-projects
+3. npm install #installs the dependencies
+4. npm run dev
+
+## To Do
+
+1. Do not let token place on top of each other
+2. Highlight tokens and respective initative

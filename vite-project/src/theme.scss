@@ -7,6 +7,48 @@ $colour-main: #4da3ff;
 $colour-enemy: #e24b4b;
 $colour-npc: #4cc38a;
 $colour-factions: #d4b15a;
+$colour-gold: #d4b15a;
+
+@mixin text-glow-shadow {
+  text-shadow:
+    3px 0 0 #000,
+    -3px 0 0 #000,
+    0 3px 0 #000,
+    0 -3px 0 #000;
+}
+
+@mixin image-hover-zoom($scale: 1.2, $duration: 0.5s) {
+  &:hover img {
+    transform: scale($scale);
+  }
+
+  img {
+    transition: transform $duration ease;
+  }
+}
+
+@mixin gold-border-button {
+  background: #222;
+  border-radius: 10px;
+  padding: 0.5rem;
+  border: 2px solid $colour-gold;
+  transition: all 320ms ease;
+  font-weight: 700;
+
+  &:hover {
+    background: $colour-gold;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
+    cursor: pointer;
+  }
+}
+
+@mixin side-panel-style {
+  padding-top: 6rem;
+  width: 66%;
+  height: 100%;
+  box-sizing: border-box;
+  z-index: 100;
+}
 
 @font-face {
   font-family: "Dungeon";
@@ -26,6 +68,7 @@ h1 {
   text-transform: uppercase;
   font-weight: 700;
   letter-spacing: 0.5px;
+
   &::after {
     content: "";
     display: block;
@@ -40,12 +83,4 @@ h1 {
     );
     filter: drop-shadow(0 1px 0 rgba(0, 0, 0, 0.2));
   }
-}
-
-@mixin side-panel-style {
-  padding-top: 6rem;
-  width: 66%;
-  height: 100vh;
-  box-sizing: border-box;
-  z-index: 100;
 }

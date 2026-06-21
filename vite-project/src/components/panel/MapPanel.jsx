@@ -1,6 +1,8 @@
 import "./MapPanel.scss";
 import { useState, useRef } from "react";
 
+import { Map, ZoomIn, ZoomOut } from "lucide-react";
+
 //Importing map images
 const images = import.meta.glob("../../assets/map/*/*.png", {
   eager: true,
@@ -23,15 +25,17 @@ const groupedMaps = Object.entries(images).reduce((acc, [path, module]) => {
   return acc;
 }, {});
 
+const GRID_SIZE = 50;
+
 export default function MapPanel({
+  activeToken,
+  setActiveToken,
   tokens,
   setTokens,
   pendingToken,
   onPlaceToken,
   onMapChange,
 }) {
-  const GRID_SIZE = 50;
-
   const [activeMapGroup, setActiveMapGroup] = useState(null);
   const [activeMap, setActiveMap] = useState(null);
 
@@ -41,6 +45,8 @@ export default function MapPanel({
 
   const [start, setStart] = useState({ x: 0, y: 0 });
   const [pos, setPos] = useState({ x: 0, y: 0 });
+  const posRef = useRef(pos);
+  const rafRef = useRef(null);
   const [zoom, setZoom] = useState(1);
   const [movingToken, setMovingToken] = useState(null);
   const [hoverCell, setHoverCell] = useState(null);
@@ -51,18 +57,23 @@ export default function MapPanel({
   const [showHPMenu, setShowHPMenu] = useState(null);
   const [editedHP, setEditedHP] = useState(null);
 
-  const clearAll = () => {
+  const clearMenus = () => {
     setShowMenu(false);
     setShowHPMenu(false);
     setMovingToken(null);
     setHoverCell(null);
+    setActiveToken(null);
+  };
+
+  const clearAll = () => {
+    clearMenus();
     setTokens([]);
   };
 
   const handleCharacterHP = (newHPValue) => {
     setTokens((prev) =>
       prev.map((char) =>
-        char.id === showMenu.id
+        char.id === activeToken.id
           ? {
               ...char,
               stats: {
@@ -74,16 +85,17 @@ export default function MapPanel({
       ),
     );
 
-    setShowHPMenu(false);
-    setShowMenu(false);
+    clearMenus();
   };
-  const handleAttack = () => {};
+
   const handleMoveChar = () => {
     setMovingToken(true);
+    setShowMenu(false);
   };
   const handleDead = () => {};
   const handleRemoveChar = () => {
-    setTokens((prev) => prev.filter((char) => char !== showMenu));
+    setTokens((prev) => prev.filter((char) => char.id !== activeToken.id));
+    clearMenus();
   };
 
   const handlePointerMove = (e) => {
@@ -105,15 +117,22 @@ export default function MapPanel({
     const dx = e.clientX - start.x;
     const dy = e.clientY - start.y;
 
-    // 👇 detect drag threshold
+    //  detect drag threshold
     if (Math.abs(dx) > 3 || Math.abs(dy) > 3) {
       setDidDrag(true);
     }
 
-    setPos({
+    posRef.current = {
       x: start.originX + dx,
       y: start.originY + dy,
-    });
+    };
+
+    if (!rafRef.current) {
+      rafRef.current = requestAnimationFrame(() => {
+        setPos({ ...posRef.current });
+        rafRef.current = null;
+      });
+    }
   };
 
   const handlePointerDown = (e) => {
@@ -124,14 +143,14 @@ export default function MapPanel({
     setDidDrag(false);
 
     if (showMenu && !movingToken) {
-      setShowMenu(false);
+      clearMenus();
     }
 
     setStart({
       x: e.clientX,
       y: e.clientY,
-      originX: pos.x,
-      originY: pos.y,
+      originX: posRef.current.x,
+      originY: posRef.current.y,
     });
   };
 
@@ -149,6 +168,7 @@ export default function MapPanel({
     if (!didDrag) {
       if (pendingToken) {
         onPlaceToken(gridX, gridY);
+        setHoverCell(null);
       }
     }
     setDidDrag(false);
@@ -156,7 +176,7 @@ export default function MapPanel({
     if (movingToken) {
       setTokens((prev) =>
         prev.map((token) =>
-          token.id === showMenu?.id
+          token.id === activeToken?.id
             ? {
                 ...token,
                 gridX: hoverCell.gridX,
@@ -168,6 +188,8 @@ export default function MapPanel({
 
       setMovingToken(false);
       setShowMenu(false);
+      setHoverCell(null);
+      setActiveToken(null);
     }
   };
 
@@ -254,12 +276,14 @@ export default function MapPanel({
               <img
                 src={token.image}
                 alt={token.name}
-                onClick={() => setShowMenu(token)}
+                onClick={() => {
+                  setActiveToken(token);
+                  setShowMenu(true);
+                }}
               />
-              {showMenu?.id == token.id && (
+              {showMenu && activeToken?.id == token.id && (
                 <div className="token__menu">
                   <button onClick={() => setShowHPMenu(true)}>HP</button>
-                  <button onClick={handleAttack}>Attack</button>
                   <button onClick={() => handleMoveChar()}>Move</button>
                   <button onClick={handleDead}>Dead</button>
                   <button onClick={() => handleRemoveChar()}>Remove</button>
@@ -271,27 +295,29 @@ export default function MapPanel({
       </div>
       {showHPMenu && (
         <div className="token__hp-menu">
-          <h3>{showMenu.name} HP</h3>
-          <p>Current HP: {showMenu.stats.currentHP}</p>
+          <h3>{activeToken?.name}'s HP</h3>
+          <p>Current HP: {activeToken?.stats?.currentHP}</p>
           <input
             type="number"
             value={editedHP}
             onChange={(e) => setEditedHP(e.target.value)}
           />
           <div className="hp-modal__buttons">
-            <button onClick={() => handleCharacterHP(editedHP)}>Save</button>
-            <button onClick={() => setShowHPMenu(false)}>Cancel</button>
+            <button onClick={() => handleCharacterHP(editedHP)}>Set</button>
+            <button onClick={() => clearMenus()}>Cancel</button>
           </div>
         </div>
       )}
       <div className="map-panel__footer">
-        <p>{activeMap?.name}</p>
-        <button onClick={() => setZoom((z) => Math.min(z + 0.1, 2))}>+</button>
+        <p>{activeMap ? activeMap?.name : <Map size={20} />}</p>
+        <button onClick={() => setZoom((z) => Math.min(z + 0.1, 2))}>
+          <ZoomIn size={20} />
+        </button>
 
         <button onClick={() => setZoom((z) => Math.max(z - 0.1, 0.5))}>
-          -
+          <ZoomOut size={20} />
         </button>
-        <button onClick={() => clearAll()}>Clear</button>
+        <button onClick={() => clearAll()}>CLEAR</button>
       </div>
     </div>
   );

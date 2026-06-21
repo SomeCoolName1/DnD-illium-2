@@ -14,6 +14,12 @@
 
 .map-panel__tabs {
   width: 100%;
+  box-sizing: border-box;
+
+  button {
+    font-size: 22px;
+    @include theme.gold-border-button;
+  }
 }
 
 .map-panel__list {
@@ -36,12 +42,14 @@
     border-radius: 6px;
     padding: 0.3rem;
     cursor: pointer;
-    transition: transform 0.5s ease;
-    box-sizing: border-box;
 
-    &:hover {
-      transform: scale(1.02);
-    }
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+
+    @include theme.image-hover-zoom(1.2, 0.5s);
 
     img {
       width: 100%;
@@ -53,10 +61,15 @@
     }
     p {
       position: absolute;
-      top: 50%;
+      bottom: 10%;
       margin: 0 auto;
       font-size: 0.8rem;
       text-align: center;
+      color: white;
+
+      @include theme.text-glow-shadow;
+      font-size: 36px;
+      text-transform: uppercase;
     }
   }
 }
@@ -68,17 +81,6 @@
   position: relative;
   cursor: grab;
   user-select: none;
-
-  clip-path: polygon(
-    3% 0%,
-    97% 2%,
-    100% 10%,
-    98% 92%,
-    94% 100%,
-    6% 98%,
-    0% 90%,
-    2% 8%
-  );
 
   &:active {
     cursor: grabbing;
@@ -116,6 +118,7 @@
   position: absolute;
   width: 50px;
   height: 50px;
+  cursor: pointer;
   box-sizing: border-box;
 
   img {
@@ -144,6 +147,7 @@
   left: 110%;
   background: linear-gradient(180deg, #2c2418 0%, #1b1710 100%);
 
+  cursor: default;
   border: 3px solid #c9a24c;
   border-radius: 12px;
 
@@ -167,6 +171,7 @@
     border: 2px solid #d6c17a;
     border-radius: 8px;
     padding: 2px 4px;
+    cursor: pointer;
 
     box-shadow:
       inset 0 1px 0 rgba(255, 255, 255, 0.4),
@@ -207,23 +212,127 @@
 }
 
 .token__hp-menu {
-  width: 500px;
-  height: 500px;
-  position: absolute;
-  bottom: 0%;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1000;
+
+  width: 320px;
+  padding: 1.5rem;
+
+  background: #1b1b1b;
+  border: 5px solid theme.$colour-gold;
+  border-radius: 12px;
+  box-shadow:
+    0 12px 40px rgba(0, 0, 0, 0.45),
+    0 0 0 1px rgba(255, 255, 255, 0.05);
+
+  color: #f5f5f5;
+
+  h3 {
+    margin: 0 0 1rem;
+    font-size: 1.2rem;
+    text-align: center;
+  }
+
+  p {
+    margin-bottom: 1rem;
+    color: #cfcfcf;
+    text-align: center;
+  }
+
+  input {
+    width: 80%;
+    padding: 1rem 0.75rem;
+    margin-top: 0.25rem;
+
+    background: #262626;
+    border: 1px solid #444;
+    border-radius: 10px;
+
+    color: white;
+    font-size: 24px;
+    font-weight: 600;
+    text-align: center;
+
+    transition:
+      border-color 0.2s ease,
+      box-shadow 0.2s ease;
+
+    &:focus {
+      outline: none;
+      border-color: theme.$colour-gold;
+      box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.25);
+    }
+
+    &::-webkit-outer-spin-button,
+    &::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+  }
 }
 
+.hp-modal__buttons {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: 1rem;
+  text-transform: uppercase;
+
+  button {
+    text-transform: uppercase;
+    flex: 1;
+    padding: 0.75rem;
+
+    border: none;
+    border-radius: 8px;
+    font-size: 24px;
+
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+
+    &:first-child {
+      background: #22c55e;
+      color: white;
+
+      &:hover {
+        background: #16a34a;
+      }
+    }
+
+    &:last-child {
+      background: #374151;
+      color: white;
+
+      &:hover {
+        background: #4b5563;
+      }
+    }
+  }
+}
 .map-panel__footer {
   display: grid;
   width: 100%;
+  box-sizing: border-box;
+  margin-top: 0.5rem;
   grid-template-columns: minmax(50%, 3fr) 1fr 1fr 1fr;
-  grid-template-rows: none;
   gap: 0.5rem;
+  text-transform: uppercase;
+  font-size: 24px;
 
   & > * {
     background: #222;
     border-radius: 20px;
     padding: 0.5rem;
-    border: 2px solid #d4b15a;
+    border: 2px solid theme.$colour-gold;
+    transition: all 320ms ease;
+  }
+
+  button:hover {
+    background: theme.$colour-gold;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
+    cursor: pointer;
   }
 }
