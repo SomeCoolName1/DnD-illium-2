@@ -189,3 +189,7 @@
     transform: scale(1.03);
   }
 }
+
+.initiative-panel__card__dead {
+  filter: grayscale(1);
+}

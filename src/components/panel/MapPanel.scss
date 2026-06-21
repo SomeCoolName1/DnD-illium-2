@@ -336,3 +336,7 @@
     cursor: pointer;
   }
 }
+
+.token-dead {
+  filter: grayscale(1);
+}

@@ -71,19 +71,28 @@ export default function MapPanel({
   };
 
   const handleCharacterHP = (newHPValue) => {
-    setTokens((prev) =>
-      prev.map((char) =>
-        char.id === activeToken.id
-          ? {
-              ...char,
-              stats: {
-                ...char.stats,
-                currentHP: Number(newHPValue),
-              },
-            }
-          : char,
-      ),
-    );
+    //if 0, character status is dead
+    if (newHPValue == 0) {
+      handleDead();
+    }
+
+    //If >0, character is alive
+    else {
+      setTokens((prev) =>
+        prev.map((char) =>
+          char.id === activeToken.id
+            ? {
+                ...char,
+                status: "alive",
+                stats: {
+                  ...char.stats,
+                  currentHP: Number(newHPValue),
+                },
+              }
+            : char,
+        ),
+      );
+    }
 
     clearMenus();
   };
@@ -92,7 +101,25 @@ export default function MapPanel({
     setMovingToken(true);
     setShowMenu(false);
   };
-  const handleDead = () => {};
+
+  const handleDead = () => {
+    setTokens((prev) =>
+      prev.map((char) =>
+        char.id === activeToken.id
+          ? {
+              ...char,
+              status: "dead",
+              stats: {
+                ...char.stats,
+                currentHP: 0,
+              },
+            }
+          : char,
+      ),
+    );
+    clearMenus();
+  };
+
   const handleRemoveChar = () => {
     setTokens((prev) => prev.filter((char) => char.id !== activeToken.id));
     clearMenus();
@@ -267,7 +294,7 @@ export default function MapPanel({
             <div
               key={token.id}
               data-id={token.id}
-              className="token"
+              className={`token token-${token.status}`}
               style={{
                 left: token.gridX * GRID_SIZE,
                 top: token.gridY * GRID_SIZE,
@@ -285,7 +312,7 @@ export default function MapPanel({
                 <div className="token__menu">
                   <button onClick={() => setShowHPMenu(true)}>HP</button>
                   <button onClick={() => handleMoveChar()}>Move</button>
-                  <button onClick={handleDead}>Dead</button>
+                  <button onClick={() => handleDead()}>Dead</button>
                   <button onClick={() => handleRemoveChar()}>Remove</button>
                 </div>
               )}

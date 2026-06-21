@@ -56,13 +56,14 @@ function App() {
           currentHP: pendingToken.stats.HP,
         },
         showInfo: pendingToken.showInfo,
+        status: "alive",
       },
     ]);
 
     setPendingToken(null);
   };
 
-  const handleMapChange = (map) => {
+  const handleMapChange = () => {
     // Reset tokens when world/map changes
     setTokens([]);
     setPendingToken(null);

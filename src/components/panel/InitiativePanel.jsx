@@ -71,7 +71,7 @@ export default function InitiativePanel({ tokens, activeToken }) {
           >
             <div
               key={c.id}
-              className={`initiative-panel__card initiative-panel__card__${c.showInfo} `}
+              className={`initiative-panel__card initiative-panel__card__${c.showInfo} initiative-panel__card__${c.status}`}
             >
               <img src={c.image} alt={c.name} />
 

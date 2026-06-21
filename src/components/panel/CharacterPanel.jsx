@@ -38,6 +38,7 @@ Object.entries(images).forEach(([path, module]) => {
       Init: data.Init ?? 0,
       currentHP: data.HP ?? 0,
     },
+    status: "alive",
   });
 });
 
