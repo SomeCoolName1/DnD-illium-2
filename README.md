@@ -11,21 +11,24 @@ Creates a stream-able table for DnD
   characters/
   └── main/
   └── CharacterName/
-  ├── CharacterName.png
+  ├── CharacterName.png #Accepts png, jpg, jpeg, gif, webp, svg
   └── CharacterName.json
 
-- JSON folder template should be
-  - { "Init": Number,
+- JSON file should minimally have the following:
+  - {
+    "Init": Number,
     "Name": "Hot-Girl",
-    "TokenSize": { "width": 2, "height": 2 }
+    "TokenSize": { "width": 2, "height": 2 } #Optional. Default tokenSize is 1x1 if no value has been inputted
     }
-  - TokenSize is optional
 
-- Add characters into assets following the same naming convention
-  - JSON (just needs initiative value, name not required) + Image
-- Adding Maps:
-  - Add a folder name to /assets/map
-  - Add the map to /assets/map/subfolder
+### Maps
+
+- Store maps in src/assets/map
+- Each folder will create a tab in the application, and store your maps inside the folder. E.g:
+  map/
+  └── dungeon/
+  ├── dungeon-1.png #Accepts png, jpg, jpeg, gif, webp, svg
+  └── dungeon-2.png
 
 ## Before you start the first run
 
