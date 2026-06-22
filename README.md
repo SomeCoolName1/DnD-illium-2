@@ -1,12 +1,12 @@
 # DnD - Illium
 
-Creates a stream-able table for DnD
+---
 
-## Adding your customs
+## Adding Custom Content
 
-## Characters
+### Characters
 
-Store characters in:
+Store character files in:
 
 ```text
 src/assets/characters
@@ -22,9 +22,16 @@ characters/
         └── CharacterName.json
 ```
 
-Supported image formats: png, jpg, jpeg, gif, webp, svg
+Supported image formats:
 
-The JSON file should minimally contain:
+- png
+- jpg
+- jpeg
+- gif
+- webp
+- svg
+
+Example JSON file which should minimally include:
 
 ```json
 {
@@ -37,11 +44,19 @@ The JSON file should minimally contain:
 }
 ```
 
-`TokenSize` is optional. If omitted, the token defaults to **1×1**.
+### Character JSON Fields
+
+| Field     | Type   | Required | Description                                 |
+| --------- | ------ | -------- | ------------------------------------------- |
+| Name      | String | Yes      | Character name displayed in the application |
+| Init      | Number | Yes      | Initiative modifier                         |
+| TokenSize | Object | No       | Token dimensions on the grid                |
+
+If `TokenSize` is omitted, the token defaults to **1×1**.
 
 ---
 
-## Maps
+### Maps
 
 Store maps in:
 
@@ -49,7 +64,7 @@ Store maps in:
 src/assets/map
 ```
 
-Each folder creates a separate tab in the application.
+Each folder creates a separate map tab within the application.
 
 Example:
 
@@ -60,43 +75,102 @@ map/
     └── dungeon-2.png
 ```
 
-Supported image formats: png, jpg, jpeg, gif, webp, svg
-In this example, a **Dungeon** tab will automatically appear containing both maps.
+Supported image formats:
 
-## Before you start the first run
+- png
+- jpg
+- jpeg
+- gif
+- webp
+- svg
 
-Check if you have the following via Console Log
+---
 
-- node -v
-- npm -v
+## Before Your First Run
 
-## Running it
+Make sure you have Node.js and npm installed.
 
-1. git clone / download
-2. cd folder-path
-3. npm install (installs dependencies)
-4. npm run dev
+Open a terminal and run:
+
+```bash
+node -v
+npm -v
+```
+
+If both commands return version numbers, you're ready to continue.
+
+---
+
+## Running the Application
+
+### 1. Download the project
+
+Either:
+
+- Clone the repository
+
+```bash
+git clone <repository-url>
+```
+
+or
+
+- Download the ZIP file and extract it.
+
+### 2. Open a terminal in the project folder
+
+```bash
+cd path/to/project
+```
+
+### 3. Install dependencies
+
+```bash
+npm install
+```
+
+### 4. Start the development server
+
+```bash
+npm run dev
+```
+
+The application should now be available in your browser.
+
+---
 
 ## Notes
 
-- There is no save state (i.e. Tokens will always reset if the browser is reset)
-- You can manipulate the Grid Size. The default size is 50px x 50px
+- There is currently **no save system**.
+  - Refreshing the browser will reset all placed tokens.
+- Grid size can be adjusted in the application.
+  - Default grid size is **50px × 50px**.
 
-## To Do
+---
 
-- Do not let token place on top of each other
-- Blocking/Obstacle tokens
+## Planned Features
+
+- Prevent tokens from being placed on top of each other
+- Obstacle / blocking tokens
+
+---
 
 ## The can't be fks
 
-- Attack logic
-- Grid names
+- Combat / attack logic
+- Grid coordinate naming
 
-## Completed
+---
 
-- Highlight tokens and respective initative
-- Death and all related death/hp-modifications logic
-- Adjustable GRID Size
-- Allow maps/characters to work with PNG/JPEG/JPG
-- Different sized-tokens
-- Add in weapons for each main character (Unarmed Strike - Total ATtack Bonus - Damage - Critical)
+## Completed Features
+
+- Token highlighting linked to initiative order
+- Death state and HP modification logic
+- Adjustable grid size
+- Support for PNG, JPG, JPEG, GIF, WEBP and SVG assets
+- Variable-sized tokens
+- Weapon display for player characters:
+  - Weapon Name
+  - Total Attack Bonus
+  - Damage
+  - Critical Range/Multiplier
