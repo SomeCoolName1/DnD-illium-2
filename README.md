@@ -4,31 +4,64 @@ Creates a stream-able table for DnD
 
 ## Adding your customs
 
-### Characters
+## Characters
 
-- Store characters in src/assets/characters
-- Each character requires:
-  characters/
-  └── main/
-  └── CharacterName/
-  ├── CharacterName.png #Accepts png, jpg, jpeg, gif, webp, svg
-  └── CharacterName.json
+Store characters in:
 
-- JSON file should minimally have the following:
-  - {
-    "Init": Number,
-    "Name": "Hot-Girl",
-    "TokenSize": { "width": 2, "height": 2 } #Optional. Default tokenSize is 1x1 if no value has been inputted
-    }
+```text
+src/assets/characters
+```
 
-### Maps
+Each character requires the following folder structure:
 
-- Store maps in src/assets/map
-- Each folder will create a tab in the application, and store your maps inside the folder. E.g:
-  map/
-  └── dungeon/
-  ├── dungeon-1.png #Accepts png, jpg, jpeg, gif, webp, svg
-  └── dungeon-2.png
+```text
+characters/
+└── main/
+    └── CharacterName/
+        ├── CharacterName.png
+        └── CharacterName.json
+```
+
+Supported image formats: png, jpg, jpeg, gif, webp, svg
+
+The JSON file should minimally contain:
+
+```json
+{
+  "Init": 5,
+  "Name": "Hot-Girl",
+  "TokenSize": {
+    "width": 2,
+    "height": 2
+  }
+}
+```
+
+`TokenSize` is optional. If omitted, the token defaults to **1×1**.
+
+---
+
+## Maps
+
+Store maps in:
+
+```text
+src/assets/map
+```
+
+Each folder creates a separate tab in the application.
+
+Example:
+
+```text
+map/
+└── dungeon/
+    ├── dungeon-1.png
+    └── dungeon-2.png
+```
+
+Supported image formats: png, jpg, jpeg, gif, webp, svg
+In this example, a **Dungeon** tab will automatically appear containing both maps.
 
 ## Before you start the first run
 
