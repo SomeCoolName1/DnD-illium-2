@@ -2,11 +2,30 @@
 
 Creates a stream-able table for DnD
 
-## Features
+## Adding your customs
+
+### Characters
+
+- Store characters in src/assets/characters
+- Each character requires:
+  characters/
+  └── main/
+  └── CharacterName/
+  ├── CharacterName.png
+  └── CharacterName.json
+
+- JSON folder template should be
+  - { "Init": Number,
+    "Name": "Hot-Girl",
+    "TokenSize": { "width": 2, "height": 2 }
+    }
+  - TokenSize is optional
 
 - Add characters into assets following the same naming convention
   - JSON (just needs initiative value, name not required) + Image
--
+- Adding Maps:
+  - Add a folder name to /assets/map
+  - Add the map to /assets/map/subfolder
 
 ## Before you start the first run
 
@@ -18,16 +37,30 @@ Check if you have the following via Console Log
 ## Running it
 
 1. git clone / download
-2. cd vite-projects
-3. npm install (installs the dependencies)
+2. cd folder-path
+3. npm install (installs dependencies)
 4. npm run dev
+
+## Notes
+
+- There is no save state (i.e. Tokens will always reset if the browser is reset)
+- You can manipulate the Grid Size. The default size is 50px x 50px
 
 ## To Do
 
 - Do not let token place on top of each other
-  ~~- Highlight tokens and respective initative~~
-  ~~- Death and all related death/hp-modifications logic~~
-- Re-add attack logic
-- Different sized-tokens
 - Blocking/Obstacle tokens
-- Allow multiple henchmen to be added. Will need to discuss with DM about this.
+
+## The can't be fks
+
+- Attack logic
+- Grid names
+
+## Completed
+
+- Highlight tokens and respective initative
+- Death and all related death/hp-modifications logic
+- Adjustable GRID Size
+- Allow maps/characters to work with PNG/JPEG/JPG
+- Different sized-tokens
+- Add in weapons for each main character (Unarmed Strike - Total ATtack Bonus - Damage - Critical)

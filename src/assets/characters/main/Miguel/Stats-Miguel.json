@@ -400,11 +400,11 @@
   "Weapon1Damage": "1d6 + 6",
   "Weapon1AB": "6",
   "Weapon1Crit": "x2",
-  "Weapon1Special": "Flurry of Blows",
-  "Weapon1Ammo": "4/4",
-  "Weapon1Weight": "1d6 +6 per hit",
-  "totalweight": "1",
-  "Weapon1Size": "x2",
+  "Weapon1Special": "",
+  "Weapon1Ammo": "",
+  "Weapon1Weight": "",
+  "totalweight": "0",
+  "Weapon1Size": "",
   "HP": "9",
   "Feat01": "Improved Unarmed Strike",
   "Feat02": "Improved Grapple",
@@ -418,5 +418,9 @@
   "Age": "30",
   "XPCurrent": "0",
   "XPNext": "1000",
-  "Name": "Miguel"
+  "Name": "Miguel",
+  "Weapon2": "Flurry of Blows",
+  "Weapon2AB": "4/4",
+  "Weapon2Damage": "1d6 +6 per hit",
+  "Weapon2Crit": "x2"
 }

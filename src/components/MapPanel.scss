@@ -1,4 +1,4 @@
-@use "../../theme";
+@use "../theme.scss";
 
 .map-panel {
   display: flex;
@@ -7,13 +7,13 @@
   color: white;
   flex-direction: column;
   align-items: center;
-  padding: 1rem;
   box-sizing: border-box;
   position: relative;
 }
 
 .map-panel__tabs {
   width: 100%;
+
   box-sizing: border-box;
 
   button {
@@ -25,6 +25,7 @@
 .map-panel__list {
   z-index: 100;
   width: 100%;
+  max-height: 15%;
   padding: 0.5rem;
   height: 10%;
   display: flex;
@@ -33,12 +34,12 @@
 
   &__card {
     position: relative;
-    background-image: url("../../assets/background/map-border.png");
+    background-image: url("../assets/background/map-border.png");
     background-size: 100% 100%; /* stretches image to fit exactly */
     background-position: center; /* centers the image */
     background-repeat: no-repeat;
-    width: 350px;
-    height: 175px;
+    width: max(200px, 15%);
+    height: max(100%, 100px);
     border-radius: 6px;
     padding: 0.3rem;
     cursor: pointer;
@@ -68,7 +69,7 @@
       color: white;
 
       @include theme.text-glow-shadow;
-      font-size: 36px;
+
       text-transform: uppercase;
     }
   }
@@ -110,14 +111,11 @@
     background-image:
       linear-gradient(to right, rgba(255, 255, 255, 0.12) 1px, transparent 1px),
       linear-gradient(to bottom, rgba(255, 255, 255, 0.12) 1px, transparent 1px);
-    background-size: 50px 50px; // 👈 tile size (1 square)}
   }
 }
 
 .token {
   position: absolute;
-  width: 50px;
-  height: 50px;
   cursor: pointer;
   box-sizing: border-box;
 
@@ -136,27 +134,32 @@
   position: absolute;
   inset: 0;
   border-radius: 50%;
-  border: 3px solid #2b2118;
+  border: 2px solid #2b2118;
   box-shadow: inset 0 0 0 2px rgba(248, 241, 223, 0.6);
   pointer-events: none;
 }
 
 .token__menu {
   position: absolute;
-  top: -100%;
-  left: 110%;
+  top: 0%;
+  left: 100%;
   background: linear-gradient(180deg, #2c2418 0%, #1b1710 100%);
+  min-width: 100px;
+  height: auto;
 
   cursor: default;
-  border: 3px solid #c9a24c;
+  border: 2px solid #c9a24c;
   border-radius: 12px;
 
-  padding: 8px;
+  padding: 5px;
   z-index: 100;
 
   box-shadow:
     inset 0 0 0 1px rgba(255, 255, 255, 0.08),
     0 8px 24px rgba(0, 0, 0, 0.6);
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
 
   button {
     margin: 4px 0px;
@@ -168,10 +171,13 @@
       #8c6420 100%
     );
     width: 100%;
+    height: 25%;
     border: 2px solid #d6c17a;
     border-radius: 8px;
     padding: 2px 4px;
     cursor: pointer;
+    font-weight: 700;
+    font-size: 24px;
 
     box-shadow:
       inset 0 1px 0 rgba(255, 255, 255, 0.4),
@@ -317,23 +323,23 @@
   width: 100%;
   box-sizing: border-box;
   margin-top: 0.5rem;
-  grid-template-columns: minmax(50%, 3fr) 1fr 1fr 1fr;
+  grid-template-columns: 25% 25% 1fr 1fr 1fr;
   gap: 0.5rem;
   text-transform: uppercase;
   font-size: 24px;
+  padding-bottom: 0.5rem;
 
   & > * {
-    background: #222;
-    border-radius: 20px;
-    padding: 0.5rem;
-    border: 2px solid theme.$colour-gold;
-    transition: all 320ms ease;
+    @include theme.gold-border-button;
   }
+}
 
-  button:hover {
-    background: theme.$colour-gold;
-    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
-    cursor: pointer;
+.map-panel__footer--grid-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  [input] {
+    width: 50%;
   }
 }
 

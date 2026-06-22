@@ -4,9 +4,12 @@ import { useState, useRef } from "react";
 import { Map, ZoomIn, ZoomOut } from "lucide-react";
 
 //Importing map images
-const images = import.meta.glob("../../assets/map/*/*.png", {
-  eager: true,
-});
+const images = import.meta.glob(
+  "../assets/map/*/*.{png,jpg,jpeg,gif,webp,svg}",
+  {
+    eager: true,
+  },
+);
 
 const groupedMaps = Object.entries(images).reduce((acc, [path, module]) => {
   const parts = path.split("/");
@@ -25,8 +28,6 @@ const groupedMaps = Object.entries(images).reduce((acc, [path, module]) => {
   return acc;
 }, {});
 
-const GRID_SIZE = 50;
-
 export default function MapPanel({
   activeToken,
   setActiveToken,
@@ -35,6 +36,7 @@ export default function MapPanel({
   pendingToken,
   onPlaceToken,
   onMapChange,
+  setPendingToken,
 }) {
   const [activeMapGroup, setActiveMapGroup] = useState(null);
   const [activeMap, setActiveMap] = useState(null);
@@ -52,10 +54,15 @@ export default function MapPanel({
   const [hoverCell, setHoverCell] = useState(null);
   const contentRef = useRef(null);
 
+  const [gridSize, setGridSize] = useState(50);
+
   //State fo menus
   const [showMenu, setShowMenu] = useState(null);
   const [showHPMenu, setShowHPMenu] = useState(null);
   const [editedHP, setEditedHP] = useState(null);
+
+  const [showSizeMenu, setSizeMenu] = useState(null);
+  const [editedSize, setEditedSize] = useState(null);
 
   const clearMenus = () => {
     setShowMenu(false);
@@ -63,6 +70,8 @@ export default function MapPanel({
     setMovingToken(null);
     setHoverCell(null);
     setActiveToken(null);
+    setPendingToken(null);
+    setSizeMenu(false);
   };
 
   const clearAll = () => {
@@ -125,6 +134,38 @@ export default function MapPanel({
     clearMenus();
   };
 
+  const handleTokenSize = () => {
+    setEditedSize(activeToken?.tokenSize?.width ?? 1);
+    setShowMenu(false);
+    setSizeMenu(true);
+  };
+  const handleSetTokenSize = (size) => {
+    const newSize = Number(size);
+
+    setTokens((prev) =>
+      prev.map((token) =>
+        token.id === activeToken.id
+          ? {
+              ...token,
+              tokenSize: {
+                width: newSize,
+                height: newSize,
+              },
+            }
+          : token,
+      ),
+    );
+
+    setActiveToken((prev) => ({
+      ...prev,
+      tokenSize: {
+        width: newSize,
+        height: newSize,
+      },
+    }));
+
+    setSizeMenu(false);
+  };
   const handlePointerMove = (e) => {
     const rect = contentRef.current.getBoundingClientRect();
 
@@ -133,8 +174,8 @@ export default function MapPanel({
 
     // token hover logic
     if (movingToken || pendingToken) {
-      const gridX = Math.round(contentX / GRID_SIZE);
-      const gridY = Math.round(contentY / GRID_SIZE);
+      const gridX = Math.round(contentX / gridSize);
+      const gridY = Math.round(contentY / gridSize);
 
       setHoverCell({ gridX, gridY });
     }
@@ -173,6 +214,10 @@ export default function MapPanel({
       clearMenus();
     }
 
+    if (!activeMap) {
+      clearMenus;
+    }
+
     setStart({
       x: e.clientX,
       y: e.clientY,
@@ -188,12 +233,12 @@ export default function MapPanel({
     const contentX = (e.clientX - rect.left) / zoom;
     const contentY = (e.clientY - rect.top) / zoom;
 
-    const gridX = Math.round(contentX / GRID_SIZE);
-    const gridY = Math.round(contentY / GRID_SIZE);
+    const gridX = Math.round(contentX / gridSize);
+    const gridY = Math.round(contentY / gridSize);
 
     // ONLY treat as click if NOT dragging
     if (!didDrag) {
-      if (pendingToken) {
+      if (pendingToken && activeMap) {
         onPlaceToken(gridX, gridY);
         setHoverCell(null);
       }
@@ -260,23 +305,25 @@ export default function MapPanel({
             transform: `translate(${pos.x}px, ${pos.y}px) scale(${zoom})`,
           }}
         >
-          {hoverCell && (
+          {hoverCell && activeMap && (
             <div
               className="grid-highlight"
               style={{
-                left: hoverCell.gridX * GRID_SIZE,
-                top: hoverCell.gridY * GRID_SIZE,
-                width: GRID_SIZE,
-                height: GRID_SIZE,
+                left: hoverCell.gridX * gridSize,
+                top: hoverCell.gridY * gridSize,
+                width: (pendingToken?.tokenSize?.width ?? 1) * gridSize,
+                height: (pendingToken?.tokenSize?.height ?? 1) * gridSize,
               }}
             />
           )}
-          {pendingToken && hoverCell && (
+          {pendingToken && hoverCell && activeMap && (
             <div
               className="token preview"
               style={{
-                left: hoverCell.gridX * GRID_SIZE,
-                top: hoverCell.gridY * GRID_SIZE,
+                left: hoverCell.gridX * gridSize,
+                top: hoverCell.gridY * gridSize,
+                width: (pendingToken?.tokenSize?.width ?? 1) * gridSize,
+                height: (pendingToken?.tokenSize?.height ?? 1) * gridSize,
               }}
             >
               <img src={pendingToken.image} alt={pendingToken.name} />
@@ -289,15 +336,24 @@ export default function MapPanel({
               draggable={false}
             />
           )}
-          {activeMap && <div className="map-viewport__grid-overlay" />}
+          {activeMap && (
+            <div
+              className="map-viewport__grid-overlay"
+              style={{
+                backgroundSize: `${gridSize}px ${gridSize}px`,
+              }}
+            />
+          )}
           {tokens.map((token) => (
             <div
               key={token.id}
               data-id={token.id}
               className={`token token-${token.status}`}
               style={{
-                left: token.gridX * GRID_SIZE,
-                top: token.gridY * GRID_SIZE,
+                left: token.gridX * gridSize,
+                top: token.gridY * gridSize,
+                width: (token.tokenSize?.width ?? 1) * gridSize,
+                height: (token.tokenSize?.height ?? 1) * gridSize,
               }}
             >
               <img
@@ -308,14 +364,18 @@ export default function MapPanel({
                   setShowMenu(true);
                 }}
               />
-              {showMenu && activeToken?.id == token.id && (
-                <div className="token__menu">
-                  <button onClick={() => setShowHPMenu(true)}>HP</button>
-                  <button onClick={() => handleMoveChar()}>Move</button>
-                  <button onClick={() => handleDead()}>Dead</button>
-                  <button onClick={() => handleRemoveChar()}>Remove</button>
-                </div>
-              )}
+              {showMenu &&
+                activeToken?.id == token.id &&
+                (console.log(token),
+                (
+                  <div className="token__menu">
+                    <button onClick={() => setShowHPMenu(true)}>HP</button>
+                    <button onClick={() => handleMoveChar()}>Move</button>
+                    <button onClick={() => handleDead()}>Dead</button>
+                    <button onClick={() => handleRemoveChar()}>Remove</button>
+                    <button onClick={handleTokenSize}>Size</button>
+                  </div>
+                ))}
             </div>
           ))}
         </div>
@@ -335,8 +395,47 @@ export default function MapPanel({
           </div>
         </div>
       )}
+
+      {showSizeMenu && (
+        <div className="token__size-menu">
+          <h3>{activeToken?.name}'s Size</h3>
+
+          <p>
+            Current Size:
+            {activeToken?.tokenSize?.width}x{activeToken?.tokenSize?.height}
+          </p>
+
+          <select
+            value={editedSize}
+            onChange={(e) => setEditedSize(Number(e.target.value))}
+          >
+            <option value={1}>Medium (1x1)</option>
+            <option value={2}>Large (2x2)</option>
+            <option value={3}>Huge (3x3)</option>
+            <option value={4}>Gargantuan (4x4)</option>
+            <option value={5}>Colossal (5x5)</option>
+          </select>
+
+          <div className="hp-modal__buttons">
+            <button onClick={() => handleSetTokenSize(editedSize)}>Set</button>
+
+            <button onClick={() => setSizeMenu(false)}>Cancel</button>
+          </div>
+        </div>
+      )}
       <div className="map-panel__footer">
+        <div className="map-panel__footer--grid-container">
+          <p>Grid Size: {gridSize}px </p>
+          <input
+            type="range"
+            min={10}
+            max={200}
+            value={gridSize}
+            onChange={(e) => setGridSize(Number(e.target.value))}
+          />
+        </div>
         <p>{activeMap ? activeMap?.name : <Map size={20} />}</p>
+
         <button onClick={() => setZoom((z) => Math.min(z + 0.1, 2))}>
           <ZoomIn size={20} />
         </button>

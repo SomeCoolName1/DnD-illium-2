@@ -1,9 +1,9 @@
 import { useState } from "react";
 import "./App.scss";
-import CharacterPanel from "./components/panel/CharacterPanel";
-import MapPanel from "./components/panel/MapPanel";
-import InitiativePanel from "./components/panel/InitiativePanel";
-import InfoPanel from "./components/panel/InfoPanel";
+import CharacterPanel from "./components/CharacterPanel";
+import MapPanel from "./components/MapPanel";
+import InitiativePanel from "./components/InitiativePanel";
+import InfoPanel from "./components/InfoPanel";
 
 function App() {
   const [tokens, setTokens] = useState([]);
@@ -56,10 +56,11 @@ function App() {
           currentHP: pendingToken.stats.HP,
         },
         showInfo: pendingToken.showInfo,
+        weapons: pendingToken.weapons,
         status: "alive",
+        tokenSize: pendingToken.tokenSize ?? { width: 1, height: 1 },
       },
     ]);
-
     setPendingToken(null);
   };
 
@@ -83,6 +84,7 @@ function App() {
           pendingToken={pendingToken}
           onPlaceToken={placePendingToken}
           onMapChange={handleMapChange}
+          setPendingToken={setPendingToken}
         />
         <InfoPanel tokens={tokens} />
       </div>

@@ -1,4 +1,4 @@
-@use "../../theme";
+@use "../theme.scss";
 
 .character-panel {
   @include theme.side-panel-style;
@@ -6,6 +6,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
+  padding-right: 0.5rem;
 
   & > *:not(h1) {
     width: 100%;
@@ -17,19 +18,17 @@
     flex-direction: column;
     align-items: center;
     gap: 0.5rem;
-    max-height: 80%;
+    min-height: max(500px, 70%);
     overflow-y: scroll;
   }
 
   &__card {
-    background-image: url("../../assets/background/card.png");
+    background-image: url("../assets/background/card.png");
     background-size: 100% 100%; /* stretches image to fit exactly */
     background-position: center; /* centers the image */
     background-repeat: no-repeat;
-    width: max(200px, 66%);
-    min-height: 400px;
-    padding: 0.5rem;
-    margin-bottom: 1rem;
+    width: max(125px, 66%);
+    min-height: min(33%, 250px);
     display: flex;
     position: relative;
     flex-direction: column;
@@ -49,26 +48,31 @@
 
     p {
       color: theme.$color-text;
-      font-size: 0.9rem;
+      width: 50%;
       margin: 0;
       z-index: 10;
       color: black;
       position: absolute;
-      bottom: 12.5%;
+      bottom: 10%;
       text-transform: uppercase;
-      font-weight: 1000;
-      font-size: 26px;
+      font-weight: 700;
+      font-size: 12px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      text-align: center;
     }
   }
 }
 
 .character-panel__tabs {
   display: flex;
-  flex-direction: row;
-  justify-content: space-evenly;
+  flex-wrap: wrap;
+  gap: 0.5rem;
 }
 
 .character-button {
+  flex: 1 1 calc(50% - 0.25rem);
   border: 2px solid #bfd9ff;
   border-radius: 8px;
   width: 20%;

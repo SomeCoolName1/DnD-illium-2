@@ -11,10 +11,10 @@ $colour-gold: #d4b15a;
 
 @mixin text-glow-shadow {
   text-shadow:
-    3px 0 0 #000,
-    -3px 0 0 #000,
-    0 3px 0 #000,
-    0 -3px 0 #000;
+    2px 0 0 #000,
+    -2px 0 0 #000,
+    0 2px 0 #000,
+    0 -2px 0 #000;
 }
 
 @mixin image-hover-zoom($scale: 1.2, $duration: 0.5s) {
@@ -29,11 +29,13 @@ $colour-gold: #d4b15a;
 
 @mixin gold-border-button {
   background: #222;
-  border-radius: 10px;
-  padding: 0.5rem;
+  border-radius: 12px;
+  padding: 5px;
   border: 2px solid $colour-gold;
   transition: all 320ms ease;
   font-weight: 700;
+  font-size: 12px;
+  text-transform: uppercase;
 
   &:hover {
     background: $colour-gold;
@@ -43,7 +45,7 @@ $colour-gold: #d4b15a;
 }
 
 @mixin side-panel-style {
-  padding-top: 6rem;
+  padding-top: 3rem;
   width: 66%;
   height: 100%;
   box-sizing: border-box;
@@ -68,12 +70,13 @@ h1 {
   text-transform: uppercase;
   font-weight: 700;
   letter-spacing: 0.5px;
+  font-size: 32px;
 
   &::after {
     content: "";
     display: block;
-    height: 4px; /* thicker */
-    margin-top: 0.5em;
+    height: 3px; /* thicker */
+    margin-top: 0.25rem;
     background: linear-gradient(
       to right,
       transparent,

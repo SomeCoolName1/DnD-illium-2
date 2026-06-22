@@ -2,15 +2,36 @@ import "./CharacterPanel.scss";
 import { useState } from "react";
 
 //Importing character images
-const images = import.meta.glob("../../assets/characters/*/*/*.png", {
-  eager: true,
-});
+const images = import.meta.glob(
+  "../assets/characters/*/*/*.{png,jpg,jpeg,gif,webp,svg}",
+  {
+    eager: true,
+  },
+);
 
-const jsonModules = import.meta.glob("../../assets/characters/*/*/*.json", {
+const jsonModules = import.meta.glob("../assets/characters/*/*/*.json", {
   eager: true,
 });
 
 const grouped = {};
+
+function getWeapons(data) {
+  const weapons = [];
+
+  for (let i = 1; ; i++) {
+    const weapon = data[`Weapon${i}`];
+    if (!weapon) break;
+
+    weapons.push({
+      name: weapon,
+      damage: data[`Weapon${i}Damage`],
+      crit: data[`Weapon${i}Crit`],
+      ab: data[`Weapon${i}AB`],
+    });
+  }
+
+  return weapons;
+}
 
 Object.entries(images).forEach(([path, module]) => {
   const parts = path.split("/");
@@ -38,9 +59,13 @@ Object.entries(images).forEach(([path, module]) => {
       Init: data.Init ?? 0,
       currentHP: data.HP ?? 0,
     },
+    weapons: getWeapons(data),
     status: "alive",
+    tokenSize: data.TokenSize ?? { width: 1, height: 1 },
   });
 });
+
+console.log(grouped);
 
 export default function CharacterPanel({
   onAddToken,

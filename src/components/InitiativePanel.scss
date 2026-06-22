@@ -1,4 +1,4 @@
-@use "../../theme";
+@use "../theme.scss";
 
 .initiative-panel {
   @include theme.side-panel-style;
@@ -23,6 +23,7 @@
   position: relative;
   width: 100%;
   z-index: 0;
+  min-height: 90px;
   overflow: hidden;
 }
 
@@ -30,8 +31,8 @@
   position: relative;
   box-sizing: border-box;
   width: 100%;
-  min-height: 125px;
-  clip-path: polygon(0 0, 100% 0, 90% 100%, 0 100%);
+  height: 100%;
+  clip-path: polygon(0 0, 100% 0, 95% 100%, 0 100%);
   overflow: hidden;
 
   background: white;
@@ -42,7 +43,7 @@
   mask-image: linear-gradient(
     to right,
     rgba(0, 0, 0, 1) 0%,
-    rgba(0, 0, 0, 1) 70%,
+    rgba(0, 0, 0, 1) 77.5%,
     rgba(0, 0, 0, 0) 100%
   );
 
@@ -60,7 +61,6 @@
 .initiative-panel__card img {
   position: absolute;
   inset: 0;
-
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -74,7 +74,7 @@
   left: 10px;
   bottom: 8px;
   z-index: 10;
-  padding: 20px 5px 0% 5px;
+  padding: 15px 5px 0% 5px;
   height: 100%;
   box-sizing: border-box;
   color: white;
@@ -87,7 +87,7 @@
 }
 
 .initiative-panel__init {
-  font-size: 22px;
+  font-size: 14px;
   font-weight: 700;
   color: white;
 
@@ -102,18 +102,20 @@
   justify-content: space-between;
 
   button {
-    width: auto;
-    height: 100%;
-    font-size: 18px;
     @include theme.gold-border-button;
   }
 }
 
 .initiative-panel__name {
-  font-size: 32px;
+  font-size: 24px;
   font-weight: 700;
   margin: 0;
   color: white;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: start;
+  width: 80%;
 
   @include theme.text-glow-shadow;
 }

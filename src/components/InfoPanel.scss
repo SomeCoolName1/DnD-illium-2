@@ -1,0 +1,212 @@
+@use "../theme.scss";
+
+.info-panel {
+  display: flex;
+  flex-direction: row;
+  height: max(150px, 15%);
+  gap: 0.5rem;
+
+  width: 100%;
+  box-sizing: border-box;
+
+  &__party-container {
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    gap: 0.5rem;
+
+    width: 50%;
+    height: 100%;
+  }
+
+  &__info-container {
+    width: 50%;
+    height: 100%;
+  }
+
+  & > * {
+    background: #222;
+    border-radius: 15px;
+    padding: 0.5rem;
+    border: 2px solid theme.$colour-gold;
+    box-sizing: border-box;
+  }
+}
+
+.info-card {
+  display: flex;
+  width: 100%;
+  flex-direction: row;
+  align-items: center;
+  text-align: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  box-sizing: border-box;
+
+  &__hp-container {
+    width: 85%;
+  }
+
+  &__name {
+    width: 15%;
+    text-align: center;
+    font-weight: 700;
+    font-size: 16px;
+    margin-bottom: 0;
+    border: 1px solid theme.$colour-gold;
+
+    text-shadow:
+      -1px -1px 0 #000,
+      1px -1px 0 #000,
+      -1px 1px 0 #000,
+      1px 1px 0 #000;
+
+    letter-spacing: 0.5px;
+    border-radius: 6px;
+    padding: 2px;
+    cursor: pointer;
+    &:hover {
+      background: theme.$colour-gold;
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
+      cursor: pointer;
+    }
+  }
+}
+
+.info-card__name-active {
+  background: theme.$colour-gold;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
+  cursor: pointer;
+}
+
+.info-panel__info-container {
+  display: flex;
+  flex-direction: row;
+  img {
+    width: 100px;
+    height: 100%;
+    max-height: 140px;
+    object-fit: cover;
+    flex-shrink: 0;
+    border-radius: 4px;
+  }
+}
+
+.info-panel__meta-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  font-size: 12px;
+}
+
+.hp-bar {
+  position: relative;
+  width: 100%;
+  height: 14px;
+  background: #2a1a1a;
+  border-radius: 5px;
+  overflow: hidden;
+  border: 1px solid #000;
+}
+
+.hp-bar__fill {
+  height: 100%;
+  width: 0%;
+  transition: width 0.5s ease;
+}
+
+.hp-bar__text {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: bold;
+  color: white;
+  text-shadow: 0 0 3px black;
+  pointer-events: none;
+}
+
+.hp-bar__fill.high {
+  background: linear-gradient(90deg, #4ade80, #166534);
+}
+
+.hp-bar__fill.mid {
+  background: linear-gradient(90deg, #facc15, #ca8a04);
+}
+
+.hp-bar__fill.low {
+  background: linear-gradient(90deg, #ef4444, #7a1c1c);
+  animation: pulse 1s infinite;
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.6;
+  }
+}
+
+.info-panel__weapon-container {
+  width: 100%;
+  min-width: 0;
+  height: 100%;
+  overflow: auto;
+  max-height: 100px;
+}
+
+.weapon-table {
+  border-collapse: collapse;
+  font-size: 12px;
+  width: 100%;
+  table-layout: fixed;
+}
+
+.weapon-table__wrapper {
+  width: 100%;
+  overflow-x: hidden;
+}
+
+.weapon-table th,
+.weapon-table td {
+  border: 1px solid #444;
+  padding: 4px 6px;
+  white-space: nowrap;
+  text-align: left;
+}
+
+.weapon-table th {
+  background: #111;
+  color: #f5d06f;
+  font-weight: 700;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.weapon-table tr:nth-child(even) {
+  background: #1a1a1a;
+}
+
+.weapon-table th:nth-child(1),
+.weapon-table td:nth-child(1) {
+  width: 35%;
+}
+
+.weapon-table th:nth-child(2),
+.weapon-table td:nth-child(2) {
+  width: 20%;
+}
+
+.weapon-table th:nth-child(3),
+.weapon-table td:nth-child(3) {
+  width: 25%;
+}
+
+.weapon-table th:nth-child(4),
+.weapon-table td:nth-child(4) {
+  width: 20%;
+}
