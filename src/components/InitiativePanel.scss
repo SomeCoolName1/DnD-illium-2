@@ -11,7 +11,7 @@
   &__list {
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: clamp(8px, 1.5%, 16px);
     width: 100%;
     overflow-y: auto;
     overflow-x: visible;
@@ -23,7 +23,7 @@
   position: relative;
   width: 100%;
   z-index: 0;
-  min-height: 90px;
+  min-height: clamp(70px, 10%, 100px);
   overflow: hidden;
 }
 
@@ -71,10 +71,10 @@
 
 .initiative-panel__meta {
   position: absolute;
-  left: 10px;
-  bottom: 8px;
+  left: clamp(6px, 1%, 12px);
+  bottom: clamp(4px, 1%, 10px);
   z-index: 10;
-  padding: 15px 5px 0% 5px;
+  padding: clamp(8px, 2%, 15px) clamp(2px, 0.5%, 5px) 0 clamp(2px, 0.5%, 5px);
   height: 100%;
   box-sizing: border-box;
   color: white;
@@ -87,7 +87,7 @@
 }
 
 .initiative-panel__init {
-  font-size: 14px;
+  font-size: clamp(11px, 1.5vw, 16px);
   font-weight: 700;
   color: white;
 
@@ -100,14 +100,17 @@
   width: 85%;
   align-items: center;
   justify-content: space-between;
+  gap: 4px;
 
   button {
     @include theme.gold-border-button;
+    padding: clamp(3px, 0.5%, 6px);
+    font-size: clamp(10px, 1vw, 14px);
   }
 }
 
 .initiative-panel__name {
-  font-size: 24px;
+  font-size: clamp(16px, 3vw, 24px);
   font-weight: 700;
   margin: 0;
   color: white;
@@ -129,8 +132,8 @@
 
   transform: translateY(-50%);
 
-  width: 75px;
-  height: 75px;
+  width: clamp(50px, 8%, 80px);
+  height: clamp(50px, 8%, 80px);
 
   z-index: 100;
   color: black;
@@ -153,7 +156,7 @@
   );
 
   font-weight: bold;
-  font-size: 32px;
+  font-size: clamp(18px, 3vw, 32px);
 
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
   animation: rollIn 0.6s ease-out;

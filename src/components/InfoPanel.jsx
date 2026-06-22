@@ -1,5 +1,5 @@
 import "./InfoPanel.scss";
-import { useEffect, useState } from "react";
+import { useState, useMemo } from "react";
 
 function HPBar({ current, max, children }) {
   const percent = Math.max(0, Math.min(100, (current / max) * 100));
@@ -22,13 +22,15 @@ function HPBar({ current, max, children }) {
 export default function InfoPanel({ tokens }) {
   const [viewToken, setViewToken] = useState(null);
 
-  const mainTokens = tokens.filter((t) => t.showInfo === "main");
+  const mainTokens = useMemo(() => tokens.filter((t) => t.showInfo === "main"), [tokens]);
 
-  useEffect(() => {
-    if (tokens.length === 0) {
-      setViewToken(null);
+  // Automatically clear viewToken if it's no longer in the list
+  const validViewToken = useMemo(() => {
+    if (!viewToken || !mainTokens.some((t) => t.id === viewToken.id)) {
+      return null;
     }
-  }, [tokens.length]);
+    return viewToken;
+  }, [viewToken, mainTokens]);
 
   return (
     <div className="info-panel">
@@ -36,7 +38,7 @@ export default function InfoPanel({ tokens }) {
         {mainTokens?.map((c) => (
           <div key={c.id} className="info-card">
             <button
-              className={`info-card__name info-card__name-${viewToken.id == c.id ? "active" : ""}`}
+              className={`info-card__name ${validViewToken?.id === c.id ? "info-card__name-active" : ""}`}
               onClick={() => setViewToken(c)}
             >
               {c.name}
@@ -50,13 +52,13 @@ export default function InfoPanel({ tokens }) {
         ))}
       </div>
       <div className="info-panel__info-container">
-        {viewToken && (
+        {validViewToken && (
           <>
-            <img src={viewToken.image} alt={viewToken.name} />
+            <img src={validViewToken.image} alt={validViewToken.name} />
             <div className="info-panel__wrapper">
               <div className="info-panel__meta-container">
-                <p>AC: {viewToken?.stats?.AC}</p>
-                <p>Init: {viewToken?.stats?.Init}</p>
+                <p>AC: {validViewToken?.stats?.AC}</p>
+                <p>Init: {validViewToken?.stats?.Init}</p>
               </div>
               <div className="info-panel__weapon-container">
                 <table className="weapon-table">
@@ -69,7 +71,7 @@ export default function InfoPanel({ tokens }) {
                     </tr>
                   </thead>
                   <tbody>
-                    {viewToken?.weapons?.map((w, i) => (
+                    {validViewToken?.weapons?.map((w, i) => (
                       <tr key={i}>
                         <td>{w.name}</td>
                         <td>{w.ab ?? "-"}</td>

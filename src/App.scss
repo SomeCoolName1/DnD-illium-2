@@ -1,14 +1,15 @@
 .main-container {
   display: grid;
-  grid-template-columns: minmax(15%, 250px) 1fr minmax(15%, 250px);
+  grid-template-columns: clamp(200px, 20vw, 320px) 1fr clamp(200px, 20vw, 320px);
   min-height: 100vh;
   box-sizing: border-box;
   background-image:
     linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),
     url("/src/assets/background/wood.png");
-  background-size: 100% 100%; /* stretches image to fit exactly */
-  background-position: center; /* centers the image */
+  background-size: cover;
+  background-position: center;
   background-repeat: no-repeat;
+  background-attachment: fixed;
 }
 
 .center-panel-container {

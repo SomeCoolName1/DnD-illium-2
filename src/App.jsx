@@ -4,6 +4,7 @@ import CharacterPanel from "./components/CharacterPanel";
 import MapPanel from "./components/MapPanel";
 import InitiativePanel from "./components/InitiativePanel";
 import InfoPanel from "./components/InfoPanel";
+import { isMaxTokensReached } from "./utils/tokenUtils";
 
 function App() {
   const [tokens, setTokens] = useState([]);
@@ -12,13 +13,7 @@ function App() {
 
   // Select a character to place on the map; waiting for user to click a grid cell
   const selectCharacterForPlacement = (character) => {
-    const existing = tokens.filter(
-      (t) =>
-        t.name.toLowerCase() === (character.id || character.name.toLowerCase()),
-    ).length;
-
-    const max = character.maxTokens ?? Infinity;
-    if (existing >= max) {
+    if (isMaxTokensReached(tokens, character)) {
       return;
     }
     setPendingToken(character);
@@ -28,14 +23,7 @@ function App() {
   const placePendingToken = (gridX, gridY) => {
     if (!pendingToken) return;
     // enforce max again before placing
-    const existing = tokens.filter(
-      (t) =>
-        t.name.toLowerCase() ===
-        (pendingToken.id || pendingToken.name.toLowerCase()),
-    ).length;
-
-    const max = pendingToken.maxTokens ?? Infinity;
-    if (existing >= max) {
+    if (isMaxTokensReached(tokens, pendingToken)) {
       console.warn(`Cannot place ${pendingToken.name}: max tokens reached`);
       setPendingToken(null);
       return;

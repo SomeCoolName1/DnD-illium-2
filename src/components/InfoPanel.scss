@@ -3,8 +3,8 @@
 .info-panel {
   display: flex;
   flex-direction: row;
-  height: max(150px, 15%);
-  gap: 0.5rem;
+  height: clamp(120px, 15%, 180px);
+  gap: clamp(0.25rem, 1%, 0.5rem);
 
   width: 100%;
   box-sizing: border-box;
@@ -13,7 +13,7 @@
     display: flex;
     flex-direction: column;
     overflow-y: auto;
-    gap: 0.5rem;
+    gap: clamp(0.25rem, 1%, 0.5rem);
 
     width: 50%;
     height: 100%;
@@ -27,7 +27,7 @@
   & > * {
     background: #222;
     border-radius: 15px;
-    padding: 0.5rem;
+    padding: clamp(0.25rem, 1%, 0.75rem);
     border: 2px solid theme.$colour-gold;
     box-sizing: border-box;
   }
@@ -40,18 +40,21 @@
   align-items: center;
   text-align: center;
   justify-content: space-between;
-  gap: 0.5rem;
+  gap: clamp(0.25rem, 1%, 0.5rem);
   box-sizing: border-box;
 
   &__hp-container {
-    width: 85%;
+    width: 80%;
+    height: 100%;
+    display: flex;
+    align-items: center;
   }
 
   &__name {
-    width: 15%;
+    width: 20%;
     text-align: center;
     font-weight: 700;
-    font-size: 16px;
+    font-size: clamp(12px, 1.5vw, 16px);
     margin-bottom: 0;
     border: 1px solid theme.$colour-gold;
 
@@ -63,7 +66,7 @@
 
     letter-spacing: 0.5px;
     border-radius: 6px;
-    padding: 2px;
+    padding: clamp(2px, 0.5%, 6px);
     cursor: pointer;
     &:hover {
       background: theme.$colour-gold;
@@ -83,12 +86,13 @@
   display: flex;
   flex-direction: row;
   img {
-    width: 100px;
+    width: clamp(60px, 12%, 120px);
     height: 100%;
-    max-height: 140px;
+    max-height: 100%;
     object-fit: cover;
     flex-shrink: 0;
     border-radius: 4px;
+    margin-right: clamp(0.25rem, 1%, 0.75rem);
   }
 }
 
@@ -96,13 +100,13 @@
   display: flex;
   flex-direction: row;
   justify-content: space-around;
-  font-size: 12px;
+  font-size: clamp(10px, 1.2vw, 14px);
 }
 
 .hp-bar {
   position: relative;
   width: 100%;
-  height: 14px;
+  height: clamp(12px, 2%, 16px);
   background: #2a1a1a;
   border-radius: 5px;
   overflow: hidden;
@@ -121,7 +125,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 11px;
+  font-size: clamp(9px, 1.2vw, 12px);
   font-weight: bold;
   color: white;
   text-shadow: 0 0 3px black;
@@ -161,7 +165,7 @@
 
 .weapon-table {
   border-collapse: collapse;
-  font-size: 12px;
+  font-size: clamp(10px, 1vw, 12px);
   width: 100%;
   table-layout: fixed;
 }
@@ -174,7 +178,7 @@
 .weapon-table th,
 .weapon-table td {
   border: 1px solid #444;
-  padding: 4px 6px;
+  padding: clamp(2px, 0.5%, 6px);
   white-space: nowrap;
   text-align: left;
 }

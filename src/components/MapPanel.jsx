@@ -348,7 +348,7 @@ export default function MapPanel({
             <div
               key={token.id}
               data-id={token.id}
-              className={`token token-${token.status}`}
+              className={`token token__${token.status} token__${token.showInfo}`}
               style={{
                 left: token.gridX * gridSize,
                 top: token.gridY * gridSize,
@@ -364,18 +364,15 @@ export default function MapPanel({
                   setShowMenu(true);
                 }}
               />
-              {showMenu &&
-                activeToken?.id == token.id &&
-                (console.log(token),
-                (
-                  <div className="token__menu">
-                    <button onClick={() => setShowHPMenu(true)}>HP</button>
-                    <button onClick={() => handleMoveChar()}>Move</button>
-                    <button onClick={() => handleDead()}>Dead</button>
-                    <button onClick={() => handleRemoveChar()}>Remove</button>
-                    <button onClick={handleTokenSize}>Size</button>
-                  </div>
-                ))}
+              {showMenu && activeToken?.id === token.id && (
+                <div className="token__menu">
+                  <button onClick={() => setShowHPMenu(true)}>HP</button>
+                  <button onClick={() => handleMoveChar()}>Move</button>
+                  <button onClick={() => handleDead()}>Dead</button>
+                  <button onClick={() => handleRemoveChar()}>Remove</button>
+                  <button onClick={handleTokenSize}>Size</button>
+                </div>
+              )}
             </div>
           ))}
         </div>
@@ -425,7 +422,7 @@ export default function MapPanel({
       )}
       <div className="map-panel__footer">
         <div className="map-panel__footer--grid-container">
-          <p>Grid Size: {gridSize}px </p>
+          <p>Grid: {gridSize}px </p>
           <input
             type="range"
             min={10}

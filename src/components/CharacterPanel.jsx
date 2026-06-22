@@ -1,5 +1,6 @@
 import "./CharacterPanel.scss";
-import { useState } from "react";
+import { useState, useMemo } from "react";
+import { countTokens } from "../utils/tokenUtils";
 
 //Importing character images
 const images = import.meta.glob(
@@ -65,14 +66,22 @@ Object.entries(images).forEach(([path, module]) => {
   });
 });
 
-console.log(grouped);
-
 export default function CharacterPanel({
   onAddToken,
   pendingToken,
   tokens = [],
 }) {
   const [activeGroup, setActiveGroup] = useState("main");
+
+  const tabButtons = useMemo(
+    () => [
+      { key: "main", label: "Main" },
+      { key: "npc", label: "NPC" },
+      { key: "enemy", label: "Enemy" },
+      { key: "factions", label: "Factions" },
+    ],
+    [],
+  );
 
   return (
     <div className="character-panel">
@@ -82,37 +91,19 @@ export default function CharacterPanel({
           : "Characters"}
       </h1>
       <div className="character-panel__tabs">
-        <button
-          className="character-button__main character-button"
-          onClick={() => setActiveGroup("main")}
-        >
-          Main
-        </button>
-        <button
-          className="character-button__npc character-button"
-          onClick={() => setActiveGroup("npc")}
-        >
-          NPC
-        </button>
-        <button
-          className="character-button__enemy character-button"
-          onClick={() => setActiveGroup("enemy")}
-        >
-          Enemy
-        </button>
-        <button
-          className="character-button__factions character-button"
-          onClick={() => setActiveGroup("factions")}
-        >
-          Factions
-        </button>
+        {tabButtons.map((tab) => (
+          <button
+            key={tab.key}
+            className={`character-button__${tab.key} character-button`}
+            onClick={() => setActiveGroup(tab.key)}
+          >
+            {tab.label}
+          </button>
+        ))}
       </div>
       <div className="character-panel__content">
         {grouped[activeGroup]?.map((c) => {
-          const count = tokens.filter(
-            (t) => t.name.toLowerCase() === c.id,
-          ).length;
-          const disabled = count >= (c.maxTokens ?? Infinity);
+          const disabled = countTokens(tokens, c.id) >= (c.maxTokens ?? Infinity);
 
           return (
             <div
@@ -124,7 +115,6 @@ export default function CharacterPanel({
             >
               <img src={c.image} alt={c.name} />
               <p>{c.name}</p>
-              {/* <p>{disabled ? `(${count}/${c.maxTokens})` : ""}</p> */}
             </div>
           );
         })}

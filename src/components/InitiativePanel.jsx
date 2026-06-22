@@ -1,5 +1,5 @@
 import "./InitiativePanel.scss";
-import { useState, useMemo } from "react";
+import { useState, useMemo, useCallback } from "react";
 
 export default function InitiativePanel({ tokens, activeToken }) {
   const [rolls, setRolls] = useState({});
@@ -8,17 +8,20 @@ export default function InitiativePanel({ tokens, activeToken }) {
   const [diceFace, setDiceFace] = useState(1);
   const [landedId, setLandedId] = useState(null);
 
+  const getTotalInit = useCallback(
+    (token) => {
+      const base = Number(token.stats.Init || 0);
+      const roll = rolls[token.id] ?? 0;
+      return base + roll;
+    },
+    [rolls],
+  );
+
   const sortedTokens = useMemo(() => {
     return [...tokens].sort((a, b) => {
       return getTotalInit(b) - getTotalInit(a);
     });
-  }, [tokens, rolls]);
-
-  function getTotalInit(token) {
-    const base = Number(token.stats.Init || 0);
-    const roll = rolls[token.id] ?? 0;
-    return base + roll;
-  }
+  }, [tokens, getTotalInit]);
 
   function rollInitiative(tokenId) {
     animateRoll(tokenId, (d20) => {
@@ -52,10 +55,10 @@ export default function InitiativePanel({ tokens, activeToken }) {
 
         onFinish(final);
 
-        // Keep visible for 2 seconds
+        // Keep visible for 1 seconds
         setTimeout(() => {
           setLandedId(null);
-        }, 2000);
+        }, 1000);
       }
     }, 50);
   }

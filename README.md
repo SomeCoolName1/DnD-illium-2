@@ -31,7 +31,7 @@ Supported image formats:
 - webp
 - svg
 
-Example JSON file which should minimally include:
+Example JSON file which should minimally include (but will not break if you do not put in a JSON file):
 
 ```json
 {
@@ -46,13 +46,11 @@ Example JSON file which should minimally include:
 
 ### Character JSON Fields
 
-| Field     | Type   | Required | Description                                 |
-| --------- | ------ | -------- | ------------------------------------------- |
-| Name      | String | Yes      | Character name displayed in the application |
-| Init      | Number | Yes      | Initiative modifier                         |
-| TokenSize | Object | No       | Token dimensions on the grid                |
-
-If `TokenSize` is omitted, the token defaults to **1×1**.
+| Field     | Type   | Description                                 |
+| --------- | ------ | ------------------------------------------- |
+| Name      | String | Character name displayed in the application |
+| Init      | Number | Initiative modifier                         |
+| TokenSize | Object | Token dimensions on the grid. Default 1x1   |
 
 ---
 
@@ -135,8 +133,6 @@ npm install
 npm run dev
 ```
 
-The application should now be available in your browser.
-
 ---
 
 ## Notes
@@ -144,23 +140,16 @@ The application should now be available in your browser.
 - There is currently **no save system**.
   - Refreshing the browser will reset all placed tokens.
 - Grid size can be adjusted in the application.
-  - Default grid size is **50px × 50px**.
-
----
 
 ## Planned Features
 
 - Prevent tokens from being placed on top of each other
 - Obstacle / blocking tokens
 
----
-
 ## The can't be fks
 
 - Combat / attack logic
 - Grid coordinate naming
-
----
 
 ## Completed Features
 

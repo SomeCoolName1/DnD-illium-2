@@ -6,29 +6,29 @@
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-  padding-right: 0.5rem;
+  padding-right: clamp(0.25rem, 2%, 0.75rem);
 
   & > *:not(h1) {
     width: 100%;
   }
 
   &__content {
-    margin-top: 1rem;
+    margin-top: clamp(0.5rem, 3%, 1.5rem);
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 0.5rem;
-    min-height: max(500px, 70%);
-    overflow-y: scroll;
+    gap: clamp(0.25rem, 1%, 0.75rem);
+    min-height: clamp(300px, 70%, 800px);
+    overflow-y: auto;
   }
 
   &__card {
     background-image: url("../assets/background/card.png");
-    background-size: 100% 100%; /* stretches image to fit exactly */
-    background-position: center; /* centers the image */
+    background-size: 100% 100%;
+    background-position: center;
     background-repeat: no-repeat;
-    width: max(125px, 66%);
-    min-height: min(33%, 250px);
+    width: clamp(100px, 70%, 180px);
+    min-height: clamp(120px, 25%, 220px);
     display: flex;
     position: relative;
     flex-direction: column;
@@ -43,20 +43,21 @@
       position: absolute;
       width: auto;
       height: 100%;
+      object-fit: cover;
       z-index: -10;
     }
 
     p {
       color: theme.$color-text;
-      width: 50%;
+      width: 60%;
       margin: 0;
       z-index: 10;
       color: black;
       position: absolute;
-      bottom: 10%;
+      bottom: 8%;
       text-transform: uppercase;
       font-weight: 700;
-      font-size: 12px;
+      font-size: clamp(8px, 1.5vw, 12px);
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
@@ -68,21 +69,21 @@
 .character-panel__tabs {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.5rem;
+  gap: clamp(0.25rem, 1%, 0.5rem);
 }
 
 .character-button {
   flex: 1 1 calc(50% - 0.25rem);
   border: 2px solid #bfd9ff;
   border-radius: 8px;
-  width: 20%;
   font-weight: 700;
-  font-size: 18px;
+  font-size: clamp(10px, 2vw, 18px);
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.25),
     0 4px 10px rgba(0, 0, 0, 0.4);
   cursor: pointer;
+  padding: clamp(4px, 1%, 8px);
 
   &:hover {
     filter: brightness(1.1);
